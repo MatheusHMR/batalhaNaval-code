@@ -4,6 +4,7 @@ public abstract class Navio {
 
     private int tamanho;
     private Orientacao orientacao;
+    private Tipo tipo;
     private char identificador;
 
     public Navio(int tamanho, Orientacao orientacao, char identificador) {
