@@ -5,5 +5,6 @@ module trabalhopoov {
 
     opens trabalhopoov to javafx.fxml;
     opens trabalhopoov.controllers.preparacao to javafx.fxml, javafx.graphics;
+    opens trabalhopoov.model to javafx.base, javafx.fxml, javafx.graphics;
     exports trabalhopoov;
 }
