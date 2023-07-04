@@ -1,12 +1,13 @@
 package trabalhopoov;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 /**
  * JavaFX App
@@ -14,13 +15,14 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private GridPane gridPane;
 
-    @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
-        stage.setScene(scene);
-        stage.show();
-    }
+    // @Override
+    // public void start(Stage stage) throws IOException {
+    // scene = new Scene(loadFXML("primary"));
+    // stage.setScene(scene);
+    // stage.show();
+    // }
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
@@ -32,7 +34,18 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 
+    @Override
+    public void start(Stage stage) throws IOException {
+        //carregar o endereco do arquivo
+        scene = new Scene(loadFXML("preparacao/TelaInicial"), 400, 300);
+        stage.setTitle("GRID PANE, FAMÍLIA");
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+   
 }
