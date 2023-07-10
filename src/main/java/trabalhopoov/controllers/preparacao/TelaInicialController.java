@@ -7,16 +7,56 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.TextAlignment;
 
-public class TelaInicialController implements Initializable {
+public class TelaInicialController implements Initializable{
+
+    @FXML
+    private Button addCouracadoButton;
+
+    @FXML
+    private Button addPortaAviaoButton;
+
+    @FXML
+    private Button addSubmarinoButton;
 
     @FXML
     private GridPane gridPanePreparacao;
+
+    @FXML
+    private Label labelTelaPreparacao;
+
+    @FXML
+    private RadioButton RadioButtonHorizontal;
+
+    @FXML
+    private RadioButton RadioButtonVertical;
+
+    @FXML
+    void addCouracadoButtonClicado(ActionEvent event) {
+        System.out.println("Couracado selecionado");
+    }
+
+    @FXML
+    void addPortaAviaoButtonClicado(ActionEvent event) {
+        System.out.println("Porta Aviões selecionado");
+    }
+
+    @FXML
+    void addSubmarinoButtonClicado(ActionEvent event) {
+        System.out.println("Submarino selecionado");
+    }
+
     private int numLinhas;
     private int numColunas;
 
@@ -26,6 +66,12 @@ public class TelaInicialController implements Initializable {
         numLinhas = 10 - gridPanePreparacao.getColumnCount();
         numColunas = 10 - gridPanePreparacao.getRowCount();
         preparacaoTabuleiro(numLinhas, numColunas);
+        //gridPanePreparacao.get
+        labelTelaPreparacao.setTextAlignment(TextAlignment.CENTER);
+        labelTelaPreparacao.setAlignment(Pos.CENTER);
+
+        ToggleGroup toggleGroup = new ToggleGroup();
+        RadioButton radioButtonHorizontal = new RadioButton("Horizontal");
 
         // EventHandler<ActionEvent> ButtonClickHandler = new ButtonClickHandler();
         // Setando função de ativação com clique no botão.
@@ -51,10 +97,12 @@ public class TelaInicialController implements Initializable {
 
                 // // Configuração do botão e inserção no gridPane.
                 button.setPrefSize(gridPanePreparacao.getPrefWidth(), gridPanePreparacao.getPrefHeight());
-                gridPanePreparacao.setVgap(5);
-                gridPanePreparacao.setHgap(5);
+                //gridPanePreparacao.setVgap(5);
+                //gridPanePreparacao.setHgap(5);
                 gridPanePreparacao.add(button, linha, coluna, 1, 1);
-                gridPanePreparacao.setAlignment(Pos.CENTER);
+                gridPanePreparacao.setPadding(Insets.EMPTY);
+                gridPanePreparacao.setPadding(new Insets(0, 0, 0, 0));
+                //gridPanePreparacao.setAlignment(Pos.CENTER);
             }
         }
     }

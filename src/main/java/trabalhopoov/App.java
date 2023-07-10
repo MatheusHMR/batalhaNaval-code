@@ -6,7 +6,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 /**
@@ -15,7 +14,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     private static Scene scene;
-    private GridPane gridPane;
+    //private GridPane gridPane;
 
     // @Override
     // public void start(Stage stage) throws IOException {
@@ -40,7 +39,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //carregar o endereco do arquivo
-        scene = new Scene(loadFXML("preparacao/TelaInicial"), 400, 300);
+        scene = new Scene(loadFXML("preparacao/TelaInicial"));
         stage.setTitle("GRID PANE, FAMÍLIA");
         stage.setScene(scene);
         stage.show();
