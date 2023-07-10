@@ -39,8 +39,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //carregar o endereco do arquivo
-        scene = new Scene(loadFXML("preparacao/TelaInicial"));
-        stage.setTitle("GRID PANE, FAMÍLIA");
+        scene = new Scene(loadFXML("preparacao/TelaPreparativaJogador1"));
+        stage.setTitle("JOGO DE BATALHA NAVAL USANDO JAVA E JAVAFX");
         stage.setScene(scene);
         stage.show();
 

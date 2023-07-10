@@ -1,15 +1,19 @@
 package trabalhopoov.model;
 
-public abstract class Navio {
+import java.util.ArrayList;
+
+public class Navio {
 
     private int tamanho;
     private Orientacao orientacao;
+    private ArrayList<Parte> partes;
     private Tipo tipo;
     private char identificador;
 
-    public Navio(int tamanho, Orientacao orientacao, char identificador) {
+    public Navio(int tamanho, Orientacao orientacao, Tipo tipo, char identificador) {
         this.tamanho = tamanho;
         this.orientacao = orientacao;
+        this.tipo = tipo;
         this.identificador = identificador;
     }
 
@@ -25,6 +29,22 @@ public abstract class Navio {
         return orientacao;
     }
 
+    public ArrayList<Parte> getPartes() {
+        return partes;
+    }
+
+    public void setPartes(ArrayList<Parte> partes) {
+        this.partes = partes;
+    }
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
     public void setOrientacao(Orientacao orientacao) {
         this.orientacao = orientacao;
     }
@@ -35,6 +55,21 @@ public abstract class Navio {
 
     public void setIdentificador(char identificador) {
         this.identificador = identificador;
+    }
+
+    public static Navio criaSubmarino(Orientacao orientacao){
+        Navio submarino = new Navio(2, orientacao, Tipo.SUBMARINO, 'S');
+        return submarino;
+    }
+
+    public static Navio criaPortaAvioes(Orientacao orientacao){
+        Navio portaAvioes = new Navio(5, orientacao, Tipo.PORTA_AVIOES, 'P');
+        return portaAvioes;
+    }
+
+    public static Navio criaCouracado(Orientacao orientacao){
+        Navio couracado = new Navio(4, orientacao, Tipo.COURACADO, 'C');
+        return couracado;
     }
 
 }
