@@ -8,9 +8,9 @@ public class Navio {
     private Orientacao orientacao;
     private ArrayList<Parte> partes;
     private Tipo tipo;
-    private char identificador;
+    private String identificador;
 
-    public Navio(int tamanho, Orientacao orientacao, Tipo tipo, char identificador) {
+    public Navio(int tamanho, Orientacao orientacao, Tipo tipo, String identificador) {
         this.tamanho = tamanho;
         this.orientacao = orientacao;
         this.tipo = tipo;
@@ -49,26 +49,26 @@ public class Navio {
         this.orientacao = orientacao;
     }
 
-    public char getIdentificador() {
+    public String getIdentificador() {
         return identificador;
     }
 
-    public void setIdentificador(char identificador) {
+    public void setIdentificador(String identificador) {
         this.identificador = identificador;
     }
 
     public static Navio criaSubmarino(Orientacao orientacao){
-        Navio submarino = new Navio(2, orientacao, Tipo.SUBMARINO, 'S');
+        Navio submarino = new Navio(2, orientacao, Tipo.SUBMARINO, "S");
         return submarino;
     }
 
     public static Navio criaPortaAvioes(Orientacao orientacao){
-        Navio portaAvioes = new Navio(5, orientacao, Tipo.PORTA_AVIOES, 'P');
+        Navio portaAvioes = new Navio(5, orientacao, Tipo.PORTA_AVIOES, "P");
         return portaAvioes;
     }
 
     public static Navio criaCouracado(Orientacao orientacao){
-        Navio couracado = new Navio(4, orientacao, Tipo.COURACADO, 'C');
+        Navio couracado = new Navio(4, orientacao, Tipo.COURACADO, "C");
         return couracado;
     }
 

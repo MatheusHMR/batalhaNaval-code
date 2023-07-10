@@ -1,3 +1,4 @@
+package trabalhopoov.controllers;
 // package trabalhopoov.controllers.partida;
 // import java.net.URL;
 // import java.util.ResourceBundle;

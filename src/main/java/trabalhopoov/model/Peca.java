@@ -1,41 +1,57 @@
 package trabalhopoov.model;
 
-public class Peca {
-    private int posicaox;
-    private int poxicaoy;
-    private char identificador;
+import javafx.scene.control.Button;
 
-    public Peca(int posicaox, int poxicaoy, char identificador) {
-        this.posicaox = posicaox;
-        this.poxicaoy = poxicaoy;
+public class Peca {
+    private int linha;
+    private int coluna;
+    private String identificador;
+    private Button botao;
+
+
+    public Peca(int linha, int coluna, String identificador) {
+        this.linha = linha;
+        this.coluna = coluna;
         this.identificador = identificador;
     }
 
-    public int getPosicaox() {
-        return posicaox;
+    public Peca(int linha, int coluna, String identificador, Button botao) {
+        this.linha = linha;
+        this.coluna = coluna;
+        this.identificador = identificador;
+        this.botao = botao;
     }
 
-    public void setPosicaox(int posicaox) {
-        this.posicaox = posicaox;
+    public int getLinha() {
+        return linha;
     }
 
-    public int getPoxicaoy() {
-        return poxicaoy;
+    public void setLinha(int linha) {
+        this.linha = linha;
     }
 
-    public void setPoxicaoy(int poxicaoy) {
-        this.poxicaoy = poxicaoy;
+    public int getColuna() {
+        return coluna;
     }
 
-    public char getIdentificador() {
+    public void setColuna(int coluna) {
+        this.coluna = coluna;
+    }
+
+    public String getIdentificador() {
         return identificador;
     }
 
-    public void setIdentificador(char identificador) {
+    public void setIdentificador(String identificador) {
         this.identificador = identificador;
     }
+    
+    public Button getBotao() {
+        return botao;
+    }
 
-    
-    
+    public void setBotao(Button botao) {
+        this.botao = botao;
+    }
 
 }
