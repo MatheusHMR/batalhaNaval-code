@@ -82,10 +82,12 @@ public class TelaPreparativaController implements Initializable {
     private Peca[][] matrizPecasT1 = new Peca[10][10];
     private Peca[][] matrizPecasT2 = new Peca[10][10];
 
-    private Peca[][] matrizPecas;
+    private Peca[][] matrizPecas; //matriz que sera usada na tela atual
 
     private Scene sceneT1;
     private Scene sceneT2;
+
+    private Tabuleiro tabuleiro1, tabuleiro2;
 
     private Stage tab2;
 
@@ -107,38 +109,17 @@ public class TelaPreparativaController implements Initializable {
             Tabuleiro tabuleiro = new Tabuleiro(player1, matrizPecasT1);
             playerIdLabel.setText(player1.getClass().getSimpleName() + "1");
             namePlayerTextField.setText(player1.getName());
+            matrizPecas = matrizPecasT1;
+            tabuleiro1 = tabuleiro;
         } else {
             preparacaoTabuleiro(matrizPecasT2, numLinhas, numColunas);
             Player player2 = new Player("Tiago");
-            Tabuleiro tabuleiroPlayer2 = new Tabuleiro(new Player("Tiago"), matrizPecasT2);
+            Tabuleiro tabuleiro = new Tabuleiro(new Player("Tiago"), matrizPecasT2);
             playerIdLabel.setText(player2.getClass().getSimpleName() + "1");
             namePlayerTextField.setText(player2.getName());
+            matrizPecas = matrizPecasT2;
+            tabuleiro2 = tabuleiro;
         }
-
-        // gridPanePreparacao = new GridPane(); // faz outro gridpane para salvar as
-        // informações
-        // do tabuleiro 2
-
-        // FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(
-        // "/trabalhopoov/preparacao/TelaPreparativaJogador2.fxml"));
-        // tab2 = new Stage();
-        // try {
-        // parent = fxmlLoader.load();
-        // sceneT2 = new Scene(parent);
-        // tab2.setScene(sceneT2);
-        // preparacaoTabuleiro(matrizPecasT2, numLinhas, numColunas);
-        // Tabuleiro tabuleiroPlayer2 = new Tabuleiro(new Player("Zé"), matrizPecasT2);
-        // playerIdLabel.setText(player1.getClass().getSimpleName() + "1");
-        // namePlayerTextField.setText(player1.getName());
-
-        // } catch (Exception e) {
-        // Alert alert = new Alert(AlertType.ERROR);
-        // alert.setTitle("ERRO");
-        // alert.setHeaderText("Erro");
-        // alert.setContentText("Erro carregando a aplicação!");
-        // alert.showAndWait();
-        // Platform.exit();
-        // }
 
     }
 
@@ -204,7 +185,6 @@ public class TelaPreparativaController implements Initializable {
             }
         }
     }
-
     public class PecaButtonClickHandler implements EventHandler<ActionEvent> {
 
         @Override
@@ -226,7 +206,7 @@ public class TelaPreparativaController implements Initializable {
                         erro = true;
                     } else {// não preciso verificar essa instrução dentro do FOR
                         for (int i = linha; i < (linha + navioSelecionado.getTamanho()); i++) {
-                            if (matrizPecasT1[i][coluna].getIdentificador().compareTo("A") != 0) {
+                            if (matrizPecas[i][coluna].getIdentificador().compareTo("A") != 0) {
                                 // Está errado
                                 erro = true;
                             }
@@ -243,7 +223,7 @@ public class TelaPreparativaController implements Initializable {
                         ArrayList<Parte> partesNavio = new ArrayList<>();
                         for (int i = linha; i < (linha + navioSelecionado.getTamanho()); i++) {
 
-                            Peca pecaMae = matrizPecasT1[i][coluna];
+                            Peca pecaMae = matrizPecas[i][coluna];
                             pecaMae.setIdentificador(navioSelecionado.getIdentificador());
 
                             Parte parte = new Parte(i, coluna, navioSelecionado.getIdentificador(),
@@ -271,7 +251,7 @@ public class TelaPreparativaController implements Initializable {
                         erro = true;
                     } else {
                         for (int i = coluna; i < (coluna + navioSelecionado.getTamanho()); i++) {
-                            if (matrizPecasT1[linha][i].getIdentificador().compareTo("A") != 0) {
+                            if (matrizPecas[linha][i].getIdentificador().compareTo("A") != 0) {
                                 // Está errado
                                 erro = true;
                             }
@@ -288,7 +268,7 @@ public class TelaPreparativaController implements Initializable {
                     if (erro == false) {
                         ArrayList<Parte> partesNavio = new ArrayList<>();
                         for (int i = coluna; i < (coluna + navioSelecionado.getTamanho()); i++) {
-                            Peca pecaMae = matrizPecasT1[linha][i];
+                            Peca pecaMae = matrizPecas[linha][i];
                             pecaMae.setIdentificador(navioSelecionado.getIdentificador());
                             Parte parte = new Parte(linha, i, navioSelecionado.getIdentificador(),
                                     navioSelecionado, pecaMae);
@@ -350,11 +330,17 @@ public class TelaPreparativaController implements Initializable {
                 alert.showAndWait();
                 erro = true;
             }
-            /*System.out.println(App.qntdCour);
-            System.out.println(App.qntdPA);
-            System.out.println(App.qntdSub);*/
             if (addCouracadoButton.isDisabled() && addPortaAviaoButton.isDisabled()
                     && addSubmarinoButton.isDisabled()) {
+                if(App.firstPlacement == true){
+                    tabuleiro1.setMatrizPecas(matrizPecas);//matrizPecasT1
+                    App.qntdSub = 3;
+                    App.qntdCour = 2;
+                    App.qntdPA = 1;
+                }
+                else{
+                    tabuleiro2.setMatrizPecas(matrizPecas);//matrizPecasT2
+                }
                 System.out.println("Trocar de tela");
                 App.firstPlacement = false;
                 FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(
@@ -393,6 +379,14 @@ public class TelaPreparativaController implements Initializable {
             ColumnConstraints columnConstraints = gridPanePreparacao.getColumnConstraints().get(0);
             gridPanePreparacao.getColumnConstraints().add(columnConstraints);
         }
+    }
+
+    public Tabuleiro getTabuleiro1(){
+        return tabuleiro1;
+    }
+
+    public Tabuleiro getTabuleiro2(){
+        return tabuleiro2;
     }
 
 }
