@@ -19,6 +19,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -48,6 +50,12 @@ public class TelaPreparativaController implements Initializable {
 
     @FXML
     private Label labelTelaPreparacao;
+
+    @FXML
+    private TextField namePlayerTextField;
+
+    @FXML
+    private Label playerIdLabel;
 
     @FXML
     private RadioButton RadioButtonHorizontal;
@@ -86,7 +94,10 @@ public class TelaPreparativaController implements Initializable {
         preparacaoTabuleiro(matrizPecasT1, numLinhas, numColunas);
         labelTelaPreparacao.setTextAlignment(TextAlignment.CENTER);
         labelTelaPreparacao.setAlignment(Pos.CENTER);
-        Tabuleiro tabuleiroPlayer1 = new Tabuleiro(new Player("Matheus"), matrizPecasT1);
+        Player player1 = new Player("Matheus");
+        Tabuleiro tabuleiroPlayer1 = new Tabuleiro(player1, matrizPecasT1);
+        playerIdLabel.setText(player1.getClass().getSimpleName() + "1");
+        namePlayerTextField.setText(player1.getName());
         /*FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/preparacao/TelaPreparativaJogador2.fxml"));
         try {
             parent = fxmlLoader.load();

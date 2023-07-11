@@ -44,6 +44,6 @@
          </toggleGroup></RadioButton>
       <RadioButton fx:id="RadioButtonVertical" layoutX="448.0" layoutY="724.0" mnemonicParsing="false" onAction="#isSelectedVertical" text="Vertical" toggleGroup="$Orientacao" />
       <TextField fx:id="namePlayerTextField" layoutX="631.0" layoutY="26.0" prefHeight="24.0" prefWidth="137.0" />
-      <Label layoutX="570.0" layoutY="30.0" text="Jogador" />
+      <Label fx:id="playerIdLabel" layoutX="570.0" layoutY="30.0" text="Jogador" />
    </children>
 </AnchorPane>
