@@ -17,6 +17,8 @@
             <Font size="25.0" />
          </font>
       </Button>
+      <!-- <fx:include fx:id="tela1" source="tela1.fxml" />
+      <fx:include fx:id="tela2" source="tela2.fxml" /> -->
       <Button fx:id="instrucoesButton" layoutX="258.0" layoutY="285.0" mnemonicParsing="false" onAction="#instrucoesButtonClicado" prefHeight="94.0" prefWidth="234.0" text="Instruções">
          <font>
             <Font size="25.0" />

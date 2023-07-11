@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="824.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trabalhopoov.controllers.TelaPreparativaController">
+<AnchorPane fx:id="AnchorPaneTela1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="824.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trabalhopoov.controllers.TelaPreparativaController">
    <children>
       <GridPane fx:id="gridPanePreparacao" layoutX="71.0" layoutY="137.0" prefHeight="587.0" prefWidth="688.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="71.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="137.0">
          <columnConstraints>
@@ -41,7 +41,8 @@
       <RadioButton fx:id="RadioButtonHorizontal" layoutX="266.0" layoutY="724.0" mnemonicParsing="false" onAction="#isSelectedHorizontal" selected="true" text="Horizontal">
          <toggleGroup>
             <ToggleGroup fx:id="Orientacao" />
-         </toggleGroup></RadioButton>
+         </toggleGroup>
+      </RadioButton>
       <RadioButton fx:id="RadioButtonVertical" layoutX="448.0" layoutY="724.0" mnemonicParsing="false" onAction="#isSelectedVertical" text="Vertical" toggleGroup="$Orientacao" />
       <TextField fx:id="namePlayerTextField" layoutX="631.0" layoutY="26.0" prefHeight="24.0" prefWidth="137.0" />
       <Label fx:id="playerIdLabel" layoutX="570.0" layoutY="30.0" text="Jogador" />

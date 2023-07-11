@@ -19,6 +19,8 @@ public class App extends Application {
     public static int qntdCour = 2;
     public static int qntdPA = 1;
 
+    public static boolean firstPlacement = true;
+
     //private GridPane gridPane;
 
     // @Override

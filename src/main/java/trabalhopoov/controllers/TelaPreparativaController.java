@@ -3,7 +3,6 @@ package trabalhopoov.controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,13 +19,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import trabalhopoov.App;
-import trabalhopoov.controllers.TelaPreparativaController.PecaButtonClickHandler;
 import trabalhopoov.model.Navio;
 import trabalhopoov.model.Orientacao;
 import trabalhopoov.model.Parte;
@@ -35,6 +34,12 @@ import trabalhopoov.model.Player;
 import trabalhopoov.model.Tabuleiro;
 
 public class TelaPreparativaController implements Initializable {
+
+    @FXML
+    private AnchorPane AnchorPaneTela1;
+
+    @FXML
+    private AnchorPane AnchorPaneTela2;
 
     @FXML
     private Button addCouracadoButton;
@@ -77,8 +82,12 @@ public class TelaPreparativaController implements Initializable {
     private Peca[][] matrizPecasT1 = new Peca[10][10];
     private Peca[][] matrizPecasT2 = new Peca[10][10];
 
+    private Peca[][] matrizPecas;
+
     private Scene sceneT1;
     private Scene sceneT2;
+
+    private Stage tab2;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -90,27 +99,46 @@ public class TelaPreparativaController implements Initializable {
          * RadioButton radioButtonHorizontal = new RadioButton("Horizontal");
          * RadioButton radioButtonVertical = new RadioButton("Vertical");
          */
-
-        preparacaoTabuleiro(matrizPecasT1, numLinhas, numColunas);
-        labelTelaPreparacao.setTextAlignment(TextAlignment.CENTER);
-        labelTelaPreparacao.setAlignment(Pos.CENTER);
-        Player player1 = new Player("Matheus");
-        Tabuleiro tabuleiroPlayer1 = new Tabuleiro(player1, matrizPecasT1);
-        playerIdLabel.setText(player1.getClass().getSimpleName() + "1");
-        namePlayerTextField.setText(player1.getName());
-        /*FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/preparacao/TelaPreparativaJogador2.fxml"));
-        try {
-            parent = fxmlLoader.load();
+        if (App.firstPlacement == true) {
+            preparacaoTabuleiro(matrizPecasT1, numLinhas, numColunas);
+            labelTelaPreparacao.setTextAlignment(TextAlignment.CENTER);
+            labelTelaPreparacao.setAlignment(Pos.CENTER);
+            Player player1 = new Player("Matheus");
+            Tabuleiro tabuleiro = new Tabuleiro(player1, matrizPecasT1);
+            playerIdLabel.setText(player1.getClass().getSimpleName() + "1");
+            namePlayerTextField.setText(player1.getName());
+        } else {
             preparacaoTabuleiro(matrizPecasT2, numLinhas, numColunas);
-            Tabuleiro tabuleiroPlayer2 = new Tabuleiro(new Player("Zé"), matrizPecasT2);
-        } catch (Exception e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("ERRO");
-            alert.setHeaderText("Erro");
-            alert.setContentText("Erro carregando a aplicação!");
-            alert.showAndWait();
-            Platform.exit();
-        }*/
+            Player player2 = new Player("Tiago");
+            Tabuleiro tabuleiroPlayer2 = new Tabuleiro(new Player("Tiago"), matrizPecasT2);
+            playerIdLabel.setText(player2.getClass().getSimpleName() + "1");
+            namePlayerTextField.setText(player2.getName());
+        }
+
+        // gridPanePreparacao = new GridPane(); // faz outro gridpane para salvar as
+        // informações
+        // do tabuleiro 2
+
+        // FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(
+        // "/trabalhopoov/preparacao/TelaPreparativaJogador2.fxml"));
+        // tab2 = new Stage();
+        // try {
+        // parent = fxmlLoader.load();
+        // sceneT2 = new Scene(parent);
+        // tab2.setScene(sceneT2);
+        // preparacaoTabuleiro(matrizPecasT2, numLinhas, numColunas);
+        // Tabuleiro tabuleiroPlayer2 = new Tabuleiro(new Player("Zé"), matrizPecasT2);
+        // playerIdLabel.setText(player1.getClass().getSimpleName() + "1");
+        // namePlayerTextField.setText(player1.getName());
+
+        // } catch (Exception e) {
+        // Alert alert = new Alert(AlertType.ERROR);
+        // alert.setTitle("ERRO");
+        // alert.setHeaderText("Erro");
+        // alert.setContentText("Erro carregando a aplicação!");
+        // alert.showAndWait();
+        // Platform.exit();
+        // }
 
     }
 
@@ -190,15 +218,25 @@ public class TelaPreparativaController implements Initializable {
                 if (orientacao == Orientacao.VERTICAL) { // VERTICAL
                     if (linha + navioSelecionado.getTamanho() > 10) {
                         // Alertar que tá errado
-                        System.out.println("Posição Inválida!! O navio ficará para fora do tabuleiro!!");
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("ERRO");
+                        alert.setHeaderText("VISH! Navio pra fora do tabuleiro!");
+                        alert.setContentText("Posição Inválida!! O navio desejado ficaria para fora do tabuleiro!!");
+                        alert.showAndWait();
                         erro = true;
                     } else {// não preciso verificar essa instrução dentro do FOR
                         for (int i = linha; i < (linha + navioSelecionado.getTamanho()); i++) {
                             if (matrizPecasT1[i][coluna].getIdentificador().compareTo("A") != 0) {
-                                // Alertar que tá errado
-                                System.out.println("Posição Inválida!! Já existe um navio na posição");
+                                // Está errado
                                 erro = true;
                             }
+                        }
+                        if (erro == true) {
+                            Alert alert = new Alert(AlertType.ERROR);
+                            alert.setTitle("ERRO");
+                            alert.setHeaderText("OPA! Navio no caminho!");
+                            alert.setContentText("Posição Inválida!! Já existe um navio na posição!");
+                            alert.showAndWait();
                         }
                     }
                     if (erro == false) {// SE NÃO DEU ERRO
@@ -225,15 +263,26 @@ public class TelaPreparativaController implements Initializable {
                 } else { // HORIZONTAL
                     if (coluna + navioSelecionado.getTamanho() > 10) {
                         // Alertar que tá errado
-                        System.out.println("Posição Inválida!! O navio ficará para fora do tabuleiro!!");
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("ERRO");
+                        alert.setHeaderText("VISH! Navio pra fora do tabuleiro!");
+                        alert.setContentText("Posição Inválida!! O navio desejado ficaria para fora do tabuleiro!!");
+                        alert.showAndWait();
                         erro = true;
                     } else {
                         for (int i = coluna; i < (coluna + navioSelecionado.getTamanho()); i++) {
                             if (matrizPecasT1[linha][i].getIdentificador().compareTo("A") != 0) {
-                                // Alertar que tá errado
-                                System.out.println("Posição Inválida!! Já existe um navio na posição");
+                                // Está errado
                                 erro = true;
                             }
+                        }
+                        if (erro == true) {
+                            // Alertar que está errado
+                            Alert alert = new Alert(AlertType.ERROR);
+                            alert.setTitle("ERRO");
+                            alert.setHeaderText("OPA! Navio no caminho!");
+                            alert.setContentText("Posição Inválida!! Já existe um navio na posição!");
+                            alert.showAndWait();
                         }
                     }
                     if (erro == false) {
@@ -294,7 +343,38 @@ public class TelaPreparativaController implements Initializable {
 
                 }
             } else {
-                System.out.println("Selecione um tipo de navio para colocar no tabuleiro!!");
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("ERRO");
+                alert.setHeaderText("Presta atenção, moço!");
+                alert.setContentText("Primeiro você precisa selecionar um navio pra posicionar");
+                alert.showAndWait();
+                erro = true;
+            }
+            /*System.out.println(App.qntdCour);
+            System.out.println(App.qntdPA);
+            System.out.println(App.qntdSub);*/
+            if (addCouracadoButton.isDisabled() && addPortaAviaoButton.isDisabled()
+                    && addSubmarinoButton.isDisabled()) {
+                System.out.println("Trocar de tela");
+                App.firstPlacement = false;
+                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(
+                        "/trabalhopoov/preparacao/TelaPreparativaJogador2.fxml"));
+                tab2 = new Stage();
+                tab2 = (Stage)botaoClicado.getScene().getWindow();
+                try {
+                    Parent parent = fxmlLoader.load();
+                    sceneT2 = new Scene(parent);
+                    tab2.setScene(sceneT2);
+                    tab2.show();
+
+                } catch (Exception e) {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("ERRO");
+                    alert.setHeaderText("Erro");
+                    alert.setContentText("Erro carregando a aplicação!");
+                    alert.showAndWait();
+                    Platform.exit();
+                }
             }
         }
     }
