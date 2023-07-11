@@ -14,6 +14,11 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     private static Scene scene;
+
+    public static int qntdSub = 3;
+    public static int qntdCour = 2;
+    public static int qntdPA = 1;
+
     //private GridPane gridPane;
 
     // @Override

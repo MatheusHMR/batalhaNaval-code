@@ -3,12 +3,19 @@ package trabalhopoov.controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -16,6 +23,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.TextAlignment;
+import trabalhopoov.App;
+import trabalhopoov.controllers.TelaPreparativaController.PecaButtonClickHandler;
 import trabalhopoov.model.Navio;
 import trabalhopoov.model.Orientacao;
 import trabalhopoov.model.Parte;
@@ -49,9 +58,9 @@ public class TelaPreparativaController implements Initializable {
     private int numLinhas;
     private int numColunas;
 
-    private int qntdSub = 3;
-    private int qntdCour = 2;
-    private int qntdPA = 1;
+    // private static int qntdSub = 3;
+    // private static int qntdCour = 2;
+    // private static int qntdPA = 1;
 
     private Orientacao orientacao;
 
@@ -60,28 +69,44 @@ public class TelaPreparativaController implements Initializable {
     private Peca[][] matrizPecasT1 = new Peca[10][10];
     private Peca[][] matrizPecasT2 = new Peca[10][10];
 
+    private Scene sceneT1;
+    private Scene sceneT2;
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
 
-        numLinhas = 10 - gridPanePreparacao.getColumnCount();
-        numColunas = 10 - gridPanePreparacao.getRowCount();
+        numLinhas = 10 - gridPanePreparacao.getRowCount();
+        numColunas = 10 - gridPanePreparacao.getColumnCount();
+        Parent parent;
         /*
          * RadioButton radioButtonHorizontal = new RadioButton("Horizontal");
          * RadioButton radioButtonVertical = new RadioButton("Vertical");
          */
 
-        preparacaoTabuleiro(numLinhas, numColunas);
+        preparacaoTabuleiro(matrizPecasT1, numLinhas, numColunas);
         labelTelaPreparacao.setTextAlignment(TextAlignment.CENTER);
         labelTelaPreparacao.setAlignment(Pos.CENTER);
         Tabuleiro tabuleiroPlayer1 = new Tabuleiro(new Player("Matheus"), matrizPecasT1);
-        Tabuleiro tabuleiroPlayer2 = new Tabuleiro(new Player("Zé"), matrizPecasT2);
+        /*FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/preparacao/TelaPreparativaJogador2.fxml"));
+        try {
+            parent = fxmlLoader.load();
+            preparacaoTabuleiro(matrizPecasT2, numLinhas, numColunas);
+            Tabuleiro tabuleiroPlayer2 = new Tabuleiro(new Player("Zé"), matrizPecasT2);
+        } catch (Exception e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("ERRO");
+            alert.setHeaderText("Erro");
+            alert.setContentText("Erro carregando a aplicação!");
+            alert.showAndWait();
+            Platform.exit();
+        }*/
 
     }
 
     @FXML
     void addSubmarinoButtonClicado(ActionEvent event) {
         System.out.println("Submarino selecionado");
-        if (qntdSub != 0) {
+        if (App.qntdSub != 0) {
             navioSelecionado = Navio.criaSubmarino(orientacao);
         }
     }
@@ -89,7 +114,7 @@ public class TelaPreparativaController implements Initializable {
     @FXML
     void addCouracadoButtonClicado(ActionEvent event) {
         System.out.println("Couracado selecionado");
-        if (qntdCour != 0) {
+        if (App.qntdCour != 0) {
             navioSelecionado = Navio.criaCouracado(orientacao);
         }
     }
@@ -97,7 +122,7 @@ public class TelaPreparativaController implements Initializable {
     @FXML
     void addPortaAviaoButtonClicado(ActionEvent event) {
         System.out.println("Porta Aviões selecionado");
-        if (qntdPA != 0) {
+        if (App.qntdPA != 0) {
             navioSelecionado = Navio.criaPortaAvioes(orientacao);
         }
     }
@@ -112,12 +137,12 @@ public class TelaPreparativaController implements Initializable {
         orientacao = Orientacao.VERTICAL;
     }
 
-    private void preparacaoTabuleiro(int numLinhas, int numColunas) {
+    private void preparacaoTabuleiro(Peca[][] matrizPecas, int numLinhas, int numColunas) {
 
         EventHandler<ActionEvent> PecaButtonClickHandler = new PecaButtonClickHandler();
 
-        addColunas(numColunas);
         addLinhas(numLinhas);
+        addColunas(numColunas);
 
         numLinhas = numColunas = 10;
 
@@ -129,25 +154,14 @@ public class TelaPreparativaController implements Initializable {
                 Button button = new Button();
                 button.setId(linha + ", " + coluna);
                 button.setOnAction(PecaButtonClickHandler);
+                // button.setText(button.getId().toString());
 
                 Peca novaPeca = new Peca(linha, coluna, "A", button);
-                matrizPecasT1[linha][coluna] = novaPeca;
-                // preciso recriar porque nao se pode compartilhar referencias entre tabuleiros
-
-                /*
-                 * button = new Button();
-                 * button.setId(linha + ", " + coluna);
-                 * button.setOnAction(PecaButtonClickHandler);
-                 */
-
-                /*
-                 * novaPeca = new Peca(linha, coluna, "A", button);
-                 * matrizPecasT2[linha][coluna] = novaPeca;
-                 */
+                matrizPecas[linha][coluna] = novaPeca;
 
                 // // Configuração do botão e inserção no gridPane.
                 button.setPrefSize(gridPanePreparacao.getPrefWidth(), gridPanePreparacao.getPrefHeight());
-                gridPanePreparacao.add(button, linha, coluna, 1, 1);
+                gridPanePreparacao.add(button, coluna, linha, 1, 1);
             }
         }
     }
@@ -163,13 +177,13 @@ public class TelaPreparativaController implements Initializable {
 
             if (navioSelecionado != null) {
                 if (orientacao == Orientacao.VERTICAL) { // VERTICAL
-                    if (linha + navioSelecionado.getTamanho() >= 10) {
+                    if (linha + navioSelecionado.getTamanho() > 10) {
                         // Alertar que tá errado
                         System.out.println("Posição Inválida!! O navio ficará para fora do tabuleiro!!");
                         erro = true;
                     } else {// não preciso verificar essa instrução dentro do FOR
                         for (int i = linha; i < (linha + navioSelecionado.getTamanho()); i++) {
-                            if (matrizPecasT1[i][coluna].getIdentificador() != "A") {
+                            if (matrizPecasT1[i][coluna].getIdentificador().compareTo("A") != 0) {
                                 // Alertar que tá errado
                                 System.out.println("Posição Inválida!! Já existe um navio na posição");
                                 erro = true;
@@ -178,27 +192,33 @@ public class TelaPreparativaController implements Initializable {
                     }
                     if (erro == false) {// SE NÃO DEU ERRO
                         ArrayList<Parte> partesNavio = new ArrayList<>();
-                        botaoClicado.setText(navioSelecionado.getIdentificador());
                         for (int i = linha; i < (linha + navioSelecionado.getTamanho()); i++) {
+
                             Peca pecaMae = matrizPecasT1[i][coluna];
+                            pecaMae.setIdentificador(navioSelecionado.getIdentificador());
+
                             Parte parte = new Parte(i, coluna, navioSelecionado.getIdentificador(),
                                     navioSelecionado, pecaMae);
-                            Button botaonovo = parte.getPecaMae().getBotao();
+
+                            botaoClicado = parte.getPecaMae().getBotao();
                             partesNavio.add(parte);
-                            System.out.println("Parte do navio " + navioSelecionado.getTipo().getDescricao()
-                                    + " na linha:" + i + ", coluna:" + coluna);
-                            botaonovo.setText(navioSelecionado.getIdentificador());
+                            /*
+                             * System.out.println("Parte do navio " +
+                             * navioSelecionado.getTipo().getDescricao()
+                             * + " na linha:" + i + ", coluna:" + coluna);
+                             */
+                            botaoClicado.setText(navioSelecionado.getIdentificador());
                         }
                         navioSelecionado.setPartes(partesNavio);
                     }
                 } else { // HORIZONTAL
-                    if (coluna + navioSelecionado.getTamanho() >= 10) {
+                    if (coluna + navioSelecionado.getTamanho() > 10) {
                         // Alertar que tá errado
                         System.out.println("Posição Inválida!! O navio ficará para fora do tabuleiro!!");
                         erro = true;
                     } else {
                         for (int i = coluna; i < (coluna + navioSelecionado.getTamanho()); i++) {
-                            if (matrizPecasT1[linha][i].getIdentificador() != "A") {
+                            if (matrizPecasT1[linha][i].getIdentificador().compareTo("A") != 0) {
                                 // Alertar que tá errado
                                 System.out.println("Posição Inválida!! Já existe um navio na posição");
                                 erro = true;
@@ -209,10 +229,11 @@ public class TelaPreparativaController implements Initializable {
                         ArrayList<Parte> partesNavio = new ArrayList<>();
                         for (int i = coluna; i < (coluna + navioSelecionado.getTamanho()); i++) {
                             Peca pecaMae = matrizPecasT1[linha][i];
+                            pecaMae.setIdentificador(navioSelecionado.getIdentificador());
                             Parte parte = new Parte(linha, i, navioSelecionado.getIdentificador(),
                                     navioSelecionado, pecaMae);
-                            partesNavio.add(parte);
                             botaoClicado = parte.getPecaMae().getBotao();
+                            partesNavio.add(parte);
                             System.out.println(
                                     "Parte do navio " + navioSelecionado.getTipo().getDescricao() + " na linha:"
                                             + linha + ", coluna:" + i);
@@ -233,26 +254,29 @@ public class TelaPreparativaController implements Initializable {
                     switch (identificador) {
 
                         case "S": // Submarino
-                            if (qntdSub != 0) {
-                                qntdSub--;
+                            if (App.qntdSub > 1) {
+                                App.qntdSub--;
                             } else {
                                 addSubmarinoButton.setDisable(true);
+                                navioSelecionado = null;
                             }
                             break;
 
                         case "C": // Couraçado
-                            if (qntdCour != 0) {
-                                qntdCour--;
+                            if (App.qntdCour > 1) {
+                                App.qntdCour--;
                             } else {
                                 addCouracadoButton.setDisable(true);
+                                navioSelecionado = null;
                             }
                             break;
 
                         case "P": // Porta-Aviões
-                            if (qntdPA != 0) {
-                                qntdPA--;
+                            if (App.qntdPA > 1) {
+                                App.qntdPA--;
                             } else {
                                 addPortaAviaoButton.setDisable(true);
+                                navioSelecionado = null;
                             }
                             break;
                     }
