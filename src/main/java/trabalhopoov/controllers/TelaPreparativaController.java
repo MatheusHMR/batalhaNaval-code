@@ -115,7 +115,7 @@ public class TelaPreparativaController implements Initializable {
             preparacaoTabuleiro(matrizPecasT2, numLinhas, numColunas);
             Player player2 = new Player("Tiago");
             Tabuleiro tabuleiro = new Tabuleiro(new Player("Tiago"), matrizPecasT2);
-            playerIdLabel.setText(player2.getClass().getSimpleName() + "1");
+            playerIdLabel.setText(player2.getClass().getSimpleName() + "2");
             namePlayerTextField.setText(player2.getName());
             matrizPecas = matrizPecasT2;
             tabuleiro2 = tabuleiro;
